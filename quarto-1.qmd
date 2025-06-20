@@ -2,5 +2,39 @@
 title: "Quarto 1"
 author: "Eric Butte"
 format: html
+execute: 
+  echo: false
 ---
 
+
+```{r}
+suppressPackageStartupMessages(library(tidyverse))
+library(palmerpenguins)
+```
+
+
+```{r}
+penguins |>
+  drop_na() |>  # Remove rows with missing values
+  ggplot(aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
+  geom_point(size = 3, alpha = 0.7) +  # Scatter points
+  geom_smooth(method = "lm", se = FALSE, linetype = "dashed", linewidth = 1) +  # Trend lines
+  scale_color_brewer(palette = "Dark2") +  # Nice color palette
+  labs(
+    title = "Penguin Body Mass vs Flipper Length",
+    subtitle = "Differences across Adelie, Chinstrap, and Gentoo species",
+    x = "Flipper Length (mm)",
+    y = "Body Mass (g)",
+    color = "Penguin Species",
+    caption = "Data: palmerpenguins • Graphic: tidyverse"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(face = "bold", size = 20),
+    plot.subtitle = element_text(size = 14, margin = margin(b = 10)),
+    legend.position = "top",
+    panel.grid.major = element_line(color = "grey90"),
+    panel.grid.minor = element_blank(),
+    axis.title = element_text(face = "bold")
+  )
+```
